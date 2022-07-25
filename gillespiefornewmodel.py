@@ -77,7 +77,7 @@ def gillespieStep(state, N, gammas, alphas, rhos, sigmas, vectorsOfChange, timeL
         probabilitiesOfChange.append(state[i + 1] * (noisevalue/(2*qualities[i]*t_d)))  # AD->AE and BD->BE
         probabilitiesOfChange.append(state[0] * (noisevalue/(2*t_u)))  # U->AE and U->BE
 
-    #    print("PoC:", probabilitiesOfChange)
+      #  print("PoC:", probabilitiesOfChange)
 
     probSum = sum(probabilitiesOfChange)
     timeInterval = np.random.exponential(1 / probSum)
@@ -118,7 +118,7 @@ def gillespieStep(state, N, gammas, alphas, rhos, sigmas, vectorsOfChange, timeL
     #     print(state)
     #    print(vectorsOfChange[index])
     state += np.array(vectorsOfChange[index])
-    #    print(state)
+    print(state)
     return False, timeInterval
 
 
@@ -191,12 +191,12 @@ def runGillespie(state, T, N, gammas, alphas, rhos, sigmas, rnd_seed, finalState
         # update time variable
         t += time_step
         # update SPD matrix which keeps track of the time spent in each state
-        spd[int(previous_state[0])][int(previous_state[1])] += time_step
+        spd[int(previous_state[1])+int(previous_state[3])][int(previous_state[2])+int(previous_state[4])] += time_step
         # evoStream.write(out)
         # if (temporalEvolution != "none"):
         # if (t>1000000):#999000
         out = str(t) + "\t" + '\t'.join(str(x) for x in state) + "\t" + str(noisevalue)
-        print(out)
+        print("out",out)
         # out = str(t) + "\t" + '\t'.join(str(x) for x in state) + "\t"
         # evoStream.write(out)
         #   #print("t: ", t, "state: ", state)
@@ -293,6 +293,7 @@ if __name__ == '__main__':
     # SB = (N - Z) / 2
     # create data structure of the size of all possible states
     spd = [[0] * (int(N) + 1) for _ in range(int(N) + 1)]
+    #print(len(spd[2]))
     ## (keep in mind that it may not sum up to N for certain conditions... we may look at this later)
     #    state = [N-Z] + [0]*n + [Z/2] + [Z/2]
 
@@ -359,7 +360,7 @@ if __name__ == '__main__':
 
 
 
-              #  state = [0,25,25,25,25]
+                #state = [0,25,25,25,25]
                 # state = U, AD, BD, AE, BE
                 print(N, "Finding CDCI:", "(", state, ")  QRatio: ", qualities)
                 # state = [N-Z] + [0]*n + [Z/n
