@@ -171,8 +171,9 @@ def runGillespie(state, T, N, gammas, alphas, rhos, sigmas, rnd_seed, finalState
         # Abandonment
         # vectorsOfChange.append( negative )
         # Recruitment
-        vectorsOfChange.append(plus)
         vectorsOfChange.append(negative)
+        vectorsOfChange.append(plus)
+
 
         vectorsOfChange.append(sameplus)
         vectorsOfChange.append(expplorationend)
