@@ -6,7 +6,7 @@ Repo contains the code to run Gillespie simulation, the robot simulation code an
 ArgosCode_antagonistic contains the robot controller to run experiments with antagonistic asocial dynamics and ArgosCode_notantagonistic contains code to run experiments with synergetic bias.
 The robot controller can be found at `ARGoS_simulation/behaviours/agent_red.c`. We simulate the Kilogrid environment that robots use to source opinions, for which the module controller can be found at `ARGoS_simulation/loopfunctions/kilogrid_stub.cpp`.
 
-You need to have argos3 and Kilobot plugin for argos3 to run the simulations. 
+You need to have argos3 (version 3.0.0-beta59) and Kilobot plugin for argos3 to run the simulations. 
 
 Install argos3:
 
