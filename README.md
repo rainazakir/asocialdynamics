@@ -57,4 +57,9 @@ To run the experiment:
 python3 <Timesteps> <No._of_agents> <t_u> <t_d> <t_e> <q_a> <eta> <plot_or_no> <eta_a>
 ```
 Vary <eta> to include asocial dynamics to the system and <eta_a> to bias the dynamics synergetically or antagonistically. Specify the number of repetitions within the code. 
-The output file can be of two types:  (i) evolution of agents in each state A_D, B_D, A_E, B_E and U (for CI) across last X timesteps or (ii) normalized stationary probability distribution matrix for easier plotting
+The output file can be of two types:  (i) evolution of agents in each state A_D, B_D, A_E, B_E and U (for CI) across last X timesteps or (ii) normalized stationary probability distribution matrix for easier plotting.
+
+## Plotting data
+To generate the figures in the study, generate data using Gillespie or Robot simulations. Then use the following python based scripts to get the plots:
+[Formatting] ([https://pages.github.com/](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat) folder contains two scripts (one for CI and one for DS) to get robot simulation data to reduce the simulation data into the right format to generate the heatmaps for Figure 4 and Figure 7.
+
