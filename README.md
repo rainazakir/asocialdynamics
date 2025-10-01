@@ -51,7 +51,7 @@ The results are saved at data_cluster/<experiment>/...
 
 ## Running Gillespie simulations
 
-There are two files, one for running Gillespie simulations using cross-inhibition mechanism and the other for direct-switch mechanism. The main dependency is python.
+There are two files, one for running Gillespie simulations using cross-inhibition mechanism and the other for direct-switch mechanism. The main dependency is python3 (tested on python3.10).
 To run the experiment:
 ```
 python3 <Timesteps> <No._of_agents> <t_u> <t_d> <t_e> <q_a> <eta> <plot_or_no> <eta_a>
