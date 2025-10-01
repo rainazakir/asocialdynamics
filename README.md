@@ -1,6 +1,6 @@
 # Bio-inspired decision making in swarms under biases from stubborn robots, corrupted communication, and independent discovery
 
-Repo contains the code to run Gillespie simulation, the robot simulation code and the code to process Gillespie and robot simulation data to generate the figures. For all the installations, we assume a clean installation of Ubuntu20.04 or Ubuntu22.04.
+Repo contains the code to run Gillespie simulation, the robot simulation code and the code to process Gillespie and robot simulation data to generate the figures. For all the installations, we assume a clean installation of Ubuntu20.04, Ubuntu22.04 or Mac OS. The code has been tested on macOS 15.5.
 
 ## Running Robot simulations
 ArgosCode_antagonistic contains the robot controller to run experiments with antagonistic asocial dynamics and ArgosCode_notantagonistic contains code to run experiments with synergetic bias.
