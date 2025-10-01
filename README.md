@@ -61,5 +61,5 @@ The output file can be of two types:  (i) evolution of agents in each state A_D,
 
 ## Plotting data
 To generate the figures in the study, generate data using Gillespie or Robot simulations. Then use the following python based scripts to get the plots:
-[Formatting] ([https://pages.github.com/](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat) folder contains two scripts (one for CI and one for DS) to get robot simulation data to reduce the simulation data into the right format to generate the heatmaps for Figure 4 and Figure 7.
+[Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat) folder contains two scripts (one for CI and one for DS) to get robot simulation data to reduce the simulation data into the right format to generate the heatmaps for Figure 4 and Figure 7.
 
