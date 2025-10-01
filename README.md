@@ -63,8 +63,9 @@ The output file can be of two types:  (i) evolution of agents in each state A_D,
 To generate the figures in the study, generate data using Gillespie or Robot simulations. Then use the following python based scripts to get the plots:
 
 * [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat) folder contains two scripts (one for CI and one for DS) to compact the robot simulation data into the right format to generate the heatmaps for Figure 4 and Figure 7.
-* [Robot bifurcations](Plottingcode/robot_bif_heatmaps) has the script to generate heatmaps pf Figure 4 and Figure 7 using the fomatted data generated from scripts in [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat)
-* [Heatmaps](Plottingcode/heatmaps) contain the scripts to generate the speed, accuracy and cohesion heatmaps from Gillespie simulations to generate Figure 8.
-* [Deadlock](Plottingcode/plottingdeadlock) contains the script to plot Figure 6 colourmaps showing point of maximum deadlock where population of robots for option A equals that for option B in DS mechanism. The input to the script will be folder containing stable points of DS mechanism for various <eta>.
-* []
+* [Robot bifurcations](Plottingcode/robot_bif_heatmaps) folder has the script to generate heatmaps pf Figure 4 and Figure 7 using the fomatted data generated from scripts in [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat)
+* [Heatmaps](Plottingcode/heatmaps) ffolder contain the scripts to generate the speed, accuracy and cohesion heatmaps from Gillespie simulations to generate Figure 8.
+* [Deadlock](Plottingcode/plottingdeadlock) folder contains the script to plot Figure 6 colourmaps showing point of maximum deadlock where population of robots for option A equals that for option B in DS mechanism. The input to the script will be folder containing stable points of DS mechanism for various <eta>.
+* [SPD](Plottingcode/spd) folder contains the script to generate the SPD plots from Gillespie simulation for Figure 5 and 9.
+* [Speed Bar](Plottingcode/speedplots) folder contains the scripts to generate the bar plots in Figure 5.
 
