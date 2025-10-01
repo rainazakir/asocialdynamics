@@ -2,7 +2,7 @@
 
 Repo contains the code to run Gillespie simulation, the robot simulation code and the code to process Gillespie and robot simulation data to generate the figures. For all the installations, we assume a clean installation of Ubuntu20.04 or Ubuntu22.04.
 
-### Running Robot simulations
+## Running Robot simulations
 ArgosCode_antagonistic contains the robot controller to run experiments with antagonistic asocial dynamics and ArgosCode_notantagonistic contains code to run experiments with synergetic bias.
 The robot controller can be found at `ARGoS_simulation/behaviours/agent_red.c`. We simulate the Kilogrid environment that robots use to source opinions, for which the module controller can be found at `ARGoS_simulation/loopfunctions/kilogrid_stub.cpp`.
 
@@ -49,12 +49,12 @@ This runs the experiments local. (You have to proper build it first!)
 
 The results are saved at data_cluster/<experiment>/...
 
-### Running Gillespie simulations
+## Running Gillespie simulations
 
 There are two files, one for running Gillespie simulations using cross-inhibition mechanism and the other for direct-switch mechanism. The main dependency is python.
 To run the experiment:
 ```
-python3 <Timesteps> <No._of_agents> <t_u> <t_d> <t_e> <q_a> <asocial_probability> <plot_or_no> <eta_a>
+python3 <Timesteps> <No._of_agents> <t_u> <t_d> <t_e> <q_a> <eta> <plot_or_no> <eta_a>
 ```
-Specify the number of repetitions within the code. 
-
+Vary <eta> to include asocial dynamics to the system and <eta_a> to bias the dynamics synergetically or antagonistically. Specify the number of repetitions within the code. 
+The output file can be of two types:  (i) evolution of agents in each state A_D, B_D, A_E, B_E and U (for CI) across last X timesteps or (ii) normalized stationary probability distribution matrix for easier plotting
