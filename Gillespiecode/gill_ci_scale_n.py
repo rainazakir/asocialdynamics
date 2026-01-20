@@ -1,7 +1,6 @@
 """
-Generalised CDCI Gillespie model
-Preserves EXACT n=2 behaviour
-Author: Original by A. Reina, generalised faithfully
+n>2 CDCI Gillespie model, EXACT n=2 behaviour
+Author: Original by A. Reina
 """
 
 import numpy as np
