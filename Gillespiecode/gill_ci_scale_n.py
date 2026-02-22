@@ -25,8 +25,10 @@ def gillespieStep(state, N, qualities,pA,
     U = state[0]
     D = state[1:1+n]
     E = state[1+n:1+2*n]
-    p_other = (1 - pA) / (n - 1)
 
+    p_other = pA/n
+    pA = pA/n
+                    
     opt_names = [chr(ord('A') + i) for i in range(n)]  # For debugging
 
     # Reactions that change each state
@@ -103,7 +105,7 @@ def gillespieStep(state, N, qualities,pA,
         for j in range(n):
             tgt = opt_names[j]
 
-            pij = pA if j == 1 else p_other
+            pij = pA if j == 0 else p_other
 
             rate = D[i] * ((noisevalue * pij) / (qualities[i] * t_d))
             probabilitiesOfChange.append(rate)
@@ -117,7 +119,7 @@ def gillespieStep(state, N, qualities,pA,
 
         # -------- Noisy switch: U → E[i] -------- #
 
-        pn = pA if i == 1 else p_other
+        pn = pA if i == 0 else p_other
 
         rate = U * ((noisevalue * pn) / t_u)
         probabilitiesOfChange.append(rate)
