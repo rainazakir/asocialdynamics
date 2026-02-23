@@ -54,10 +54,10 @@ The results are saved at data_cluster/<experiment>/...
 There are two files, one for running Gillespie simulations using cross-inhibition mechanism and the other for direct-switch mechanism. The main dependency is python3 (tested on python3.10).
 To run the experiment:
 ```
-python3 <Timesteps> <No._of_agents> <t_u> <t_d> <t_e> <q_a> <eta> <plot_or_no> <eta_a>
+python3 <Timesteps> <No._of_agents> <t_u> <t_d> <t_e> <q_a> <eta> <plot_or_no> <eta_a> <n>
 ```
-Vary <eta> to include asocial dynamics to the system and <eta_a> to bias the dynamics synergetically or antagonistically. Specify the number of repetitions within the code. 
-The output file can be of two types:  (i) evolution of agents in each state A_D, B_D, A_E, B_E and U (for CI) across last X timesteps or (ii) normalized stationary probability distribution matrix for easier plotting.
+Vary <eta> to include asocial dynamics to the system and <eta_a> to bias the dynamics synergetically or antagonistically. Parameter <n> specifies the number of options. Specify the number of repetitions within the code. 
+The output file gives you the  (i) evolution of agents in each state A_D, B_D, A_E, B_E and U (for CI) across last X timesteps 
 
 ## Plotting data
 To generate the figures in the study, generate data using Gillespie or Robot simulations. Then use the following python based scripts to get the plots:
