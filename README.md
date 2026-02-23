@@ -56,7 +56,7 @@ To run the experiment:
 ```
 python3 <Timesteps> <No._of_agents> <t_u> <t_d> <t_e> <q_a> <eta> <plot_or_no> <eta_a> <n>
 ```
-Vary <eta> to include asocial dynamics to the system and <eta_a> to bias the dynamics synergetically or antagonistically. Parameter <n> specifies the number of options. Specify the number of repetitions within the code. 
+Vary <eta> to include asocial dynamics to the system and <eta_a> to bias the dynamics synergetically or antagonistically. Parameter <'n'> specifies the number of options. Specify the number of repetitions within the code. 
 The output file gives you the  (i) evolution of agents in each state A_D, B_D, A_E, B_E and U (for CI) across last X timesteps 
 
 ## Plotting data
