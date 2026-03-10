@@ -9,13 +9,14 @@ import os
 import copy
 import random
 
-DEBUG = False
+DEBUG = True
+TYPE = 1
 
 ####################################################
 # GILLESPIE STEP
 ####################################################
 
-def gillespieStep(state, N, qualities,pA,
+def gillespieStep(state, N, qualities, pA,
                   vectorsOfChange, timeLeft,
                   noisevalue, t_u, t_d, t_e):
     # Computing the probabilities of change
@@ -23,16 +24,16 @@ def gillespieStep(state, N, qualities,pA,
 
     n = len(qualities)
     U = state[0]
-    D = state[1:1+n]
-    E = state[1+n:1+2*n]
+    D = state[1:1 + n]
+    E = state[1 + n:1 + 2 * n]
 
-    p_other = pA/n
-    pA = pA/n
-                    
+    p_other = pA / n
+    pA = pA / n
+
     opt_names = [chr(ord('A') + i) for i in range(n)]  # For debugging
 
     # Reactions that change each state
-    if DEBUG: print(n, U,D,E)
+    if DEBUG: print(n, U, D, E)
 
     for i in range(n):
         src = opt_names[i]
@@ -57,8 +58,8 @@ def gillespieStep(state, N, qualities,pA,
 
                 if DEBUG:
                     print(
-                    f"[CI] {src}D * {inh}D * (1-η)/(q{src}·td)  → U | "
-                    f"{src}D={D[i]}, {inh}D={D[j]}, q{src}={qualities[i]}"
+                        f"[CI] {src}D * {inh}D * (1-η)/(q{src}·td)  → U | "
+                        f"{src}D={D[i]}, {inh}D={D[j]}, q{src}={qualities[i]}"
                     )
 
         # -------- Recruitment -------- #
@@ -71,8 +72,8 @@ def gillespieStep(state, N, qualities,pA,
 
             if DEBUG:
                 print(
-                f"[R] U * {src}D * (1-η)/tu  → {src}E | "
-                f"U={U}, {src}D={D[i]}"
+                    f"[R] U * {src}D * (1-η)/tu  → {src}E | "
+                    f"U={U}, {src}D={D[i]}"
                 )
 
         # -------- No cross inhibition -------- #
@@ -89,8 +90,8 @@ def gillespieStep(state, N, qualities,pA,
 
             if DEBUG:
                 print(
-                f"[NCI] {src}D * {src}D * (1-η)/(q{src}·td) → {src}E | "
-                f"{src}D={D[i]}, q{src}={qualities[i]}"
+                    f"[NCI] {src}D * {src}D * (1-η)/(q{src}·td) → {src}E | "
+                    f"{src}D={D[i]}, q{src}={qualities[i]}"
                 )
 
         # -------- End exploration -------- #
@@ -102,20 +103,44 @@ def gillespieStep(state, N, qualities,pA,
         )
 
         # -------- Noisy switch: D[i] → E[j] -------- #
-        for j in range(n):
-            tgt = opt_names[j]
 
-            pij = pA if j == 0 else p_other
+        if TYPE == 1: #ci type -1
+            for j in range(n):
+                tgt = opt_names[j]
 
-            rate = D[i] * ((noisevalue * pij) / (qualities[i] * t_d))
-            probabilitiesOfChange.append(rate)
+                pij = pA if j == 1 else p_other
 
-            if DEBUG:
-                print(
-                f"[ND] {src}D → {tgt}E | "
-                f"{src}D * η * p({src}→{tgt})/(q{src}·td) = "
-                f"{pij}"
-                )
+                rate = D[i] * ((noisevalue * pij) / (qualities[i] * t_d))
+                probabilitiesOfChange.append(rate)
+
+                if DEBUG:
+                    if j == i:
+                        # same option: go to E
+                        print(
+                            f"[ND] {src}D → {tgt}E | "
+                            f"{src}D * η * p({src}→{tgt})/(q{src}·td) = {pij}"
+                        )
+                    else:
+                        # different option: go to U
+                        print(
+                            f"[ND] {src}D → U | "
+                            f"{src}D * η * p({src}→{tgt})/(q{src}·td) = {pij}"
+                        )
+        else: # ci type-2
+            for j in range(n):
+                tgt = opt_names[j]
+
+                pij = pA if j == 0 else p_other
+
+                rate = D[i] * ((noisevalue * pij) / (qualities[i] * t_d))
+                probabilitiesOfChange.append(rate)
+
+                if DEBUG:
+                    print(
+                        f"[ND] {src}D → {tgt}E | "
+                        f"{src}D * η * p({src}→{tgt})/(q{src}·td) = "
+                        f"{pij}"
+                    )
 
         # -------- Noisy switch: U → E[i] -------- #
 
@@ -127,7 +152,6 @@ def gillespieStep(state, N, qualities,pA,
         if DEBUG: print(
             f"[NU] U → {src}E | U * η * p(U→{src})/tu = {pn}"
         )
-
 
     # Sampling reaction time: if the transition happens after the maximum time length, do not include it and terminate the step
     probSum = sum(probabilitiesOfChange)
@@ -174,6 +198,7 @@ def gillespieStep(state, N, qualities,pA,
         sys.exit()
     return False, timeInterval
 
+
 ####################################################
 # VECTORS OF CHANGE
 ####################################################
@@ -190,41 +215,53 @@ def build_vectors_of_change(n, type):
         for j in range(n):
             if j == i:
                 continue
-            v = [0] * (1 + 2*n)
-            v[Di] -= 1   # Di -> U
-            v[0]  += 1
+            v = [0] * (1 + 2 * n)
+            v[Di] -= 1  # Di -> U
+            v[0] += 1
             vectors.append(v)
 
         # -------- Recruitment -------- #
-        v = [0] * (1 + 2*n)
+        v = [0] * (1 + 2 * n)
         v[0] -= 1
         v[Ei] += 1
         vectors.append(v)
 
         # -------- No cross inhibition -------- #
-        v = [0] * (1 + 2*n)
+        v = [0] * (1 + 2 * n)
         v[Di] -= 1
         v[Ei] += 1
         vectors.append(v)
 
         # -------- Exploration end -------- #
-        v = [0] * (1 + 2*n)
+        v = [0] * (1 + 2 * n)
         v[Ei] -= 1
-        if type==1:
+        if type == 1:
             v[0] += 1
         else:
             v[Di] += 1
         vectors.append(v)
 
         # -------- Noise: Di → Ej (ALL j) -------- #
-        for j in range(n):
-            v = [0] * (1 + 2*n)
-            v[Di] -= 1
-            v[1 + n + j] += 1
-            vectors.append(v)
+        if TYPE == 1: #ci type-2
+            for j in range(n):
+                v = [0] * (1 + 2 * n)
+                v[Di] -= 1
+                if j == i:
+                    # keep: Di -> Ei
+                    v[1 + n + j] += 1
+                else:
+                    # change: Di -> U
+                    v[0] += 1
+                vectors.append(v)
+        else: #ci type-2
+            for j in range(n):
+                v = [0] * (1 + 2 * n)
+                v[Di] -= 1
+                v[1 + n + j] += 1
+                vectors.append(v)
 
         # -------- Noise: U → Ei -------- #
-        v = [0] * (1 + 2*n)
+        v = [0] * (1 + 2 * n)
         v[0] -= 1
         v[Ei] += 1
         vectors.append(v)
@@ -236,22 +273,21 @@ def build_vectors_of_change(n, type):
 # RUN GILLESPIE
 ####################################################
 
-def runGillespie(state, T, N, qualities,pA,
+def runGillespie(state, T, N, qualities, pA,
                  rnd_seed, finalStateFile,
                  temporalEvolution, plot_evo,
                  extraLog, quorum,
                  noisevalue, t_u, t_d, t_e, spd, type):
-
     np.random.seed(rnd_seed)
     state = np.array(state, dtype=int)
     t = 0
 
-    if temporalEvolution != "none": #logging
+    if temporalEvolution != "none":  # logging
         os.makedirs(os.path.dirname(temporalEvolution), exist_ok=True)
         evo = open(temporalEvolution, "w+")
         evo.write(str(t) + "\t" + "\t".join(map(str, state)) + "\n")
 
-    vectorsOfChange = build_vectors_of_change(len(qualities),type)
+    vectorsOfChange = build_vectors_of_change(len(qualities), type)
 
     # Iterating Gillespie step until time T
     while t < T:
@@ -259,28 +295,27 @@ def runGillespie(state, T, N, qualities,pA,
         prev = copy.deepcopy(state)
 
         finished, dt = gillespieStep(
-            state, N, qualities,pA,
+            state, N, qualities, pA,
             vectorsOfChange, T - t,
             noisevalue, t_u, t_d, t_e
         )
 
         t += dt
 
-
-        if temporalEvolution != "none": #logging
+        if temporalEvolution != "none":  # logging
             evo.write(str(t) + "\t" + "\t".join(map(str, state)) + "\n")
 
         # Checking each timestep if the quorum is reached
         if quorum > 0:
             for i in range(len(qualities)):
-                if state[1+i] + state[1+len(qualities)+i] >= N * quorum:
+                if state[1 + i] + state[1 + len(qualities) + i] >= N * quorum:
                     finished = True
                     break
 
         if finished:
             break
 
-    if finalStateFile != "none": #logging
+    if finalStateFile != "none":  # logging
         os.makedirs(os.path.dirname(finalStateFile), exist_ok=True)
         with open(finalStateFile, "a") as f:
             f.write(
@@ -311,19 +346,18 @@ if __name__ == "__main__":
     noisevalue = float(sys.argv[7])
     plot_evo = sys.argv[8].lower() == "true"
     pA = float(sys.argv[9])
-    nB = 1-float(sys.argv[9])
+    nB = 1 - float(sys.argv[9])
     n = int(sys.argv[10])
     type = 1
     quorum = 0
 
     # -------- qualities -------- #
     qualities = [qa] + [1.0] * (n - 1)
-    if DEBUG: print (qualities)
-
+    if DEBUG: print(qualities)
 
     # -------- Setup the initial state -------- #
 
-    spd = [[0]*(N+1) for _ in range(N+1)]
+    spd = [[0] * (N + 1) for _ in range(N + 1)]
     theexploration = int((t_e / (t_e + t_d)) * N)
     state = [0] + \
             [round((N - theexploration) / n)] * n + \
@@ -334,14 +368,12 @@ if __name__ == "__main__":
     # -------- Output file: temporal evolution data  -------- #
     temporalEvolution = 'popevo_ci0.05_' + str(state) + str(t_u) + "td" + str(t_d) + "te" + str(t_e) + "_" + str(
         pA) + "noise_" + "500ksteps_" + str(repetitions) + "runs_" + str(N) + "agents_" + str(qualities) + str(
-        quorum)  + '_evo-N' + "_n_"+str(n)+"_vn_"+str(noisevalue)
+        quorum) + '_evo-N' + "_n_" + str(n) + "_vn_" + str(noisevalue)
     for run in range(repetitions):
-
         rnd_seed = np.random.randint(1e9)
 
-
         runGillespie(
-            state, T, N, qualities,pA,
+            state, T, N, qualities, pA,
             rnd_seed,
             finalStateFile=temporalEvolution + "/final_state.txt",
             temporalEvolution=temporalEvolution + "/" + str(rnd_seed) + '.txt',
@@ -355,4 +387,3 @@ if __name__ == "__main__":
             spd=spd,
             type=type
         )
-
