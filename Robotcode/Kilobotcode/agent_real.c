@@ -61,7 +61,7 @@ uint8_t received_role = 0;
 /* Change these when running experiment                                                          */
 /*-----------------------------------------------------------------------------------------------*/
 #define MODEL 1 // 0 --> Voter Model  1 --> CrossInhibition
-double noise = 0.1; // SET THIS TO -1 FOR NO NOISE
+double noise = 0.05; // SET THIS TO -1 FOR NO NOISE
 int how_many_op = 2; //set the number of opinion in Kilogrid--> max is 4 for now
 int prev_option;
 int currentopinion; 
@@ -77,7 +77,7 @@ double qualityb = 1;   //quality of inferior option(s)
 /*-----------------------------------------------------------------------------------------------*/
 
 int foundmodules[18][38] = {0}; //to keep track of tiles visited in one exploration cycle
-float qratio; //to store quality based ont the tiles explored
+float qratio; //to store quality based on the tiles explored
 float qratio_scaled; //to store quality based ont the tiles explored
 
 
@@ -116,7 +116,7 @@ typedef enum {
        COMPLETE_WALL_AVOIDANCE,
 } wall_state;
 /*-----------------------------------------------------------------------------------------------*/
-state current_state = EXPLORATION; //start robot sin exploration state
+state current_state = EXPLORATION; //start robotS in exploration state
 int c_s = 0;
 int neighbour_op_rec = 0;
 wall_state wall_function_state = TURN_TO_AVOID_WALL;
@@ -475,7 +475,7 @@ void findqualityratio() {
        torecord_op_quality_estimation = currentopinion;
        qualityestimate = qratio_scaled;
        record_it = 1;
-       ////// printf("%d tile my op %d total tiles and qr %f \n", tiles_of_my_option,total_tiles_found, qratio);
+       
 }
 
 
@@ -498,7 +498,6 @@ void calculatedissemtime() {
 
        timer = ran_expo(lambda);
 
-       // printf("cop is %d timer is %f and lambda is %f \n", currentopinion, timer, lambda);
 
 
 }
@@ -559,14 +558,12 @@ void donoisyswitch() {
 
    if (init_flag) {
     // initalization happened from Kilogrid
-      // run logic
-      // process received msgs
+
       if (received_grid_msg_flag) { //if received message from kilogrid
 
 
          if (kilogrid_commitment == 1) {
-          //if it option A- red recived from Kilogrid (1 for a normal red tile and 6 for border red tile)
-
+          //if it option A- red recived from Kilogrid 
             currentopinion = 1; //change opinion to A- Red - 1
             qratio = 1;
             set_color(RGB(3, 0, 0));
@@ -574,8 +571,7 @@ void donoisyswitch() {
 
           
       } else if (kilogrid_commitment == 2) {
-        //if its option b- Blue received from Kilogrid (3 for a normal blue tile and 9 for border blue tile)
-
+        //if its option b- Blue received from Kilogrid
             currentopinion = 2; //change option to B- Blue - 2
             qratio = qualityb;
             set_color(RGB(0, 0, 3));
@@ -583,8 +579,7 @@ void donoisyswitch() {
 
           
       } else if (kilogrid_commitment == 3) {
-        //if its option b- Blue received from Kilogrid (3 for a normal blue tile and 9 for border blue tile)
-
+        //if its option g- Green received from Kilogrid 
             currentopinion = 3; //change option to G- Green - 3
              qratio = qualityb;
              set_color(RGB(0, 0, 1));
@@ -592,9 +587,9 @@ void donoisyswitch() {
 
           
       } else if (kilogrid_commitment == 4) {
-        //if its option b- Blue received from Kilogrid (3 for a normal blue tile and 9 for border blue tile)
+        //if its option Y- Yellow received from Kilogrid 
 
-            currentopinion = 4; //change option to B- Brown - 4
+            currentopinion = 4; //change option to Y- Yellow - 4
              qratio = qualityb;
 
              set_color(RGB(0, 1, 0));
@@ -698,7 +693,6 @@ void update_grid_msg() {
  return;
 }
 
-
 */
 
 void statechange() {
@@ -780,13 +774,11 @@ void poll() {
        //go to exploration state
        if (currentopinion == 1) {
               set_color(RGB(1, 0, 0));//red
-              // qratio = 0.5;
                qratio = 1;
 
             
           } else if (currentopinion == 2) {
               set_color(RGB(0, 0, 1));//blue
-              // qratio = 1;
            qratio = qualityb;
 
             
@@ -879,14 +871,10 @@ void message_rx(IR_message_t *msg, distance_measurement_t *d) {
             
           }
        if (msg->type == GRID_MSG) { //if message from Kiogrid
-              //printf("message from grid\n");
-              //printf("%hhu\n", msg->data[0]);
-              //printf("%hhu\n",msg->data[1]);
-              //printf("%hhu\n",msg->data[2]);
-              //printf("%hhu cell role\n",msg->data[3]);
+
 
               received_option_kilogrid = msg->data[2];// get the opinion of the tile
-              wall_flag = msg->data[3];// if wall then 42, if near wall 62 else 0
+              wall_flag = msg->data[3]; // if wall then 42, if near wall 62 else 0
 
               received_grid_msg_flag = true; //set the flag that message received from Kilogrid to true
 
@@ -910,13 +898,13 @@ void message_rx(IR_message_t *msg, distance_measurement_t *d) {
                                         
                                   } else if ((received_option_kilogrid == 3) &&
                                      currentopinion ==
-                                             3) { //if I am blue and I receive blue from Kilogrid
+                                             3) { //if I am green and I receive green from Kilogrid
                                           tiles_of_my_option += 1;
 
                                         
                                   } else if ((received_option_kilogrid == 4) &&
                                      currentopinion ==
-                                             4) { //if I am blue and I receive blue from Kilogrid
+                                             4) { //if I am yellow and I receive yellow from Kilogrid
                                           tiles_of_my_option += 1;
 
                                         
@@ -929,13 +917,11 @@ void message_rx(IR_message_t *msg, distance_measurement_t *d) {
 
                   if (wall_flag == 62 || wall_flag == 42) {
                       // robot sensed wall or near wall
-                         // printf("received hitwall option");
                          hit_wall = true; //-> set hit wall flag to true
                          /* Wall Avoidance manouvers */
                          if (wall_flag == 62) { //if near the border of wall and not on white wall
 
                                 kilogrid_commitment = msg->data[2]; //still get the opinion from grid
-                                //printf("gets commitments\n");
 
                               
                           }
