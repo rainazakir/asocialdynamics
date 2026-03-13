@@ -68,4 +68,5 @@ To generate the figures in the study, generate data using Gillespie or Robot sim
 * [Deadlock](Plottingcode/plottingdeadlock) folder contains the script to plot Figure 5 colourmaps showing point of maximum deadlock where population of robots for option A equals that for option B in DS mechanism. The input to the script will be folder containing stable points of DS mechanism for various <eta>. The points can be exported from ODE models in [Mathematica notebooks](Mathematica/robot_specific) for the robot specific model. The [Mathematica folder](Mathematica/basic) also includes the ODEs solved for basic decion-making model.
 * [SPD](Plottingcode/spd) folder contains the script to generate the SPD plots from Gillespie simulation for Figure SF9.
 * [Speed Bar](Plottingcode/speedplots) folder contains the scripts to generate the bar plots in Figure 6.
+* [Robot Code](Plottingcode/Robotcode) folder contains the code to run experiments on real Kilobots and kilogrid configurations files used for the experiments.
 
