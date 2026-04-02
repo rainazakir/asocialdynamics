@@ -1,4 +1,4 @@
-# Bio-inspired decision making in swarms under biases
+# Bio-inspired decision making in robot swarms under biases
 
 Repo contains the code to run Gillespie simulation, the robot simulation code and the code to process Gillespie and robot simulation data to generate the figures. For all the installations, we assume a clean installation of Ubuntu20.04, Ubuntu22.04 or Mac OS. The code has been tested on macOS 15.5.
 
@@ -62,8 +62,8 @@ The output file gives you the  (i) evolution of agents in each state A_D, B_D, A
 ## Plotting data
 To generate the figures in the study, generate data using Gillespie or Robot simulations. Then use the following python based scripts to get the plots:
 
-* [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat) folder contains two scripts (one for CI and one for DS) to compact the robot simulation data into the right format to generate the heatmaps for Figure 3 and Figure 4.
-* [Robot bifurcations](Plottingcode/robot_bif_heatmaps) folder has the script to generate heatmaps pf Figure 3 and Figure 4 using the fomatted data generated from scripts in [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat)
+* [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat) folder contains two scripts (one for CI and one for DS) to compact the robot simulation data into the right format to generate the heatmaps for Figure 3, 4 and Figure 7.
+* [Robot bifurcations](Plottingcode/robot_bif_heatmaps) folder has the script to generate heatmaps of Figure 3 ,4 and Figure 7 using the fomatted data generated from scripts in [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat)
 * [Heatmaps](Plottingcode/heatmaps) folder contain the scripts to generate the speed, accuracy and cohesion heatmaps from Gillespie simulations to generate Figure 5.
 * [Deadlock](Plottingcode/plottingdeadlock) folder contains the script to plot Figure 5 colourmaps showing point of maximum deadlock where population of robots for option A equals that for option B in DS mechanism. The input to the script will be folder containing stable points of DS mechanism for various <eta>. The points can be exported from ODE models in [Mathematica notebooks](Mathematica/robot_specific) for the robot specific model. The [Mathematica folder](Mathematica/basic) also includes the ODEs solved for basic decion-making model.
 * [SPD](Plottingcode/spd) folder contains the script to generate the SPD plots from Gillespie simulation for Figure SF9.
