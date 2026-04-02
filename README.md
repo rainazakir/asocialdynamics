@@ -1,0 +1,72 @@
+# Bio-inspired decision making in swarms under biases
+
+Repo contains the code to run Gillespie simulation, the robot simulation code and the code to process Gillespie and robot simulation data to generate the figures. For all the installations, we assume a clean installation of Ubuntu20.04, Ubuntu22.04 or Mac OS. The code has been tested on macOS 15.5.
+
+## Running Robot simulations
+[This folder](ArgosCode_antagonistic) contains the robot controller to run experiments with antagonistic asocial dynamics and [this one](ArgosCode_withoutAntagonistic) contains code to run experiments with synergetic bias.
+The robot controller can be found at `ARGoS_simulation/behaviours/agent_red.c`. We simulate the Kilogrid environment that robots use to source opinions, for which the module controller can be found at `ARGoS_simulation/loopfunctions/kilogrid_stub.cpp`.
+
+You need to have argos3 (version 3.0.0-beta59) and Kilobot plugin for argos3 to run the simulations. 
+
+Install argos3:
+
+```
+git clone https://github.com/ilpincy/argos3
+cd argos3
+mkdir build
+cd build
+cmake ../ARGoS_simulation
+make 
+``` 
+
+Install Kilobot-Plugin
+
+```
+git clone https://github.com/ilpincy/argos3-kilobot.git
+cd argos3-kilobot
+```
+
+Renew the link to argos3  (first remove it).
+
+```
+cd src/
+rm argos3
+cd ..
+ln -s ~/Programs/argos3-kilobot/src/ src/argos3
+cmake -DCMAKE_BUILD_TYPE=Release ../src
+make -j4
+make install
+```
+
+How to run experiments
+
+```
+cd ArgosCode_antagonistic/ARGoS_simulation/data_generation_scripts/
+sh local_create_argos_files_and_run.sh <start> <end> 
+```
+
+This runs the experiments local. (You have to proper build it first!)
+
+The results are saved at data_cluster/<experiment>/...
+
+## Running Gillespie simulations
+
+There are two files, one for running Gillespie simulations using cross-inhibition mechanism and the other for direct-switch mechanism. The main dependency is python3 (tested on python3.10).
+To run the experiment:
+```
+python3 <Timesteps> <No._of_agents> <t_u> <t_d> <t_e> <q_a> <eta> <plot_or_no> <eta_a> <n>
+```
+Vary <eta> to include asocial dynamics to the system and <eta_a> to bias the dynamics synergetically or antagonistically. Parameter <'n'> specifies the number of options. Specify the number of repetitions within the code. 
+The output file gives you the  (i) evolution of agents in each state A_D, B_D, A_E, B_E and U (for CI) across last X timesteps 
+
+## Plotting data
+To generate the figures in the study, generate data using Gillespie or Robot simulations. Then use the following python based scripts to get the plots:
+
+* [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat) folder contains two scripts (one for CI and one for DS) to compact the robot simulation data into the right format to generate the heatmaps for Figure 3 and Figure 4.
+* [Robot bifurcations](Plottingcode/robot_bif_heatmaps) folder has the script to generate heatmaps pf Figure 3 and Figure 4 using the fomatted data generated from scripts in [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat)
+* [Heatmaps](Plottingcode/heatmaps) folder contain the scripts to generate the speed, accuracy and cohesion heatmaps from Gillespie simulations to generate Figure 5.
+* [Deadlock](Plottingcode/plottingdeadlock) folder contains the script to plot Figure 5 colourmaps showing point of maximum deadlock where population of robots for option A equals that for option B in DS mechanism. The input to the script will be folder containing stable points of DS mechanism for various <eta>. The points can be exported from ODE models in [Mathematica notebooks](Mathematica/robot_specific) for the robot specific model. The [Mathematica folder](Mathematica/basic) also includes the ODEs solved for basic decion-making model.
+* [SPD](Plottingcode/spd) folder contains the script to generate the SPD plots from Gillespie simulation for Figure SF9.
+* [Speed Bar](Plottingcode/speedplots) folder contains the scripts to generate the bar plots in Figure 6.
+* [Robot Code](Plottingcode/Robotcode) folder contains the code to run experiments on real Kilobots and kilogrid configurations files used for the experiments.
+
