@@ -1,6 +1,6 @@
-# Bio-inspired decision making in swarms under biases
+# Bio-inspired decision making in robot swarms under biases
 
-Repo contains the code to run Gillespie simulation, the robot simulation code and the code to process Gillespie and robot simulation data to generate the figures. For all the installations, we assume a clean installation of Ubuntu20.04, Ubuntu22.04 or Mac OS. The code has been tested on macOS 15.5.
+Repo contains the code to run Gillespie simulation, the robot simulation code and the code to process Gillespie and robot simulation data to generate the figures. For all the installations, we assume a clean installation of Ubuntu20.04, Ubuntu22.04 or Mac OS. 
 
 ## Running Robot simulations
 [This folder](Robotcode) contains the contains custom ARGoS controllers (kilobot behaviors) and loop functions for simulating a swarm of [Kilobots](https://www.kilobotics.com/) using the [ARGoS3](https://www.argos-sim.info/) simulator and the [argos3-kilobot](https://github.com/ilpincy/argos3-kilobot) plugin to run experiments with antagonistic and synergistic asocial dynamics on the simulated Kilogrid. We simulate the Kilogrid environment that robots use to source opinions, for which the module controller can be found at `ARGoS_simulation/loopfunctions/kilogrid_stub.cpp`.
@@ -128,7 +128,7 @@ cd ..
 ```
 
 This produces, under `build/`:
-- `build/behaviours/agent_stub_ant`, `build/behaviours/agent_stub_ant` (or similarly named kilobot behavior executables if you change it)
+- `build/behaviours/agent_stub_ant`, `build/behaviours/agent_stub_syn` (or similarly named kilobot behavior executables if you change it)
 - `build/loop_functions/libkilogrid_stub.so` 
 
 ### Running
@@ -161,25 +161,64 @@ or executable actually got built. Check:
 - That you launched `argos3` from the `RobotCode/` root (relative paths only resolve against
   your current shell directory, not the location of the `.argos` file itself).
 
-  
+### The running of simulations have been tested on the following platform
+macOS, ProductVersion:	15.7.7,   BuildVersion:		24G720
+cmake version 3.25.1 and GNU Make 3.81
 
 ## Running Gillespie simulations
 
-There are two files, one for running Gillespie simulations using cross-inhibition mechanism and the other for direct-switch mechanism. The main dependency is python3 (tested on python3.10).
-To run the experiment:
+There are two files, one for running Gillespie simulations using cross-inhibition mechanism and the other for direct-switch mechanism. For the full model derivation and meaning of each parameter, see the paper and the inline comments in the script — this README focuses on **how to run it**.
+
+### Requirements
+
+- Python 3.6+
+- [NumPy](https://numpy.org/)
+
+### To run the experiment:
+
 ```
-python3 <Timesteps> <No._of_agents> <t_u> <t_d> <t_e> <q_a> <eta> <plot_or_no> <eta_a> <n>
+python3 gill_ci_scale_n.py  <Timesteps> <No._of_agents> <t_u> <t_d> <t_e> <q_a> <eta> <plot_or_no> <eta_a> <n>
 ```
-Vary <eta> to include asocial dynamics to the system and <eta_a> to bias the dynamics synergetically or antagonistically. Parameter <'n'> specifies the number of options. Specify the number of repetitions within the code. 
+All 10 arguments are **positional and required**, in this exact order:
+
+| # | Argument     | Type  | Meaning                                                                 |
+|---|--------------|-------|--------------------------------------------------------------------------|
+| 1 | `T`          | int   | Total simulated time per run                                            |
+| 2 | `N`          | int   | Population size (number of agents)                                      |
+| 3 | `t_u`        | float | Time constant for the Uncommitted state                                 |
+  | 4 | `t_d`      | int  | Time constant for the Disseminating state                                |
+| 5 | `t_e`        | int   | Time constant for the Exploring state                                   |
+| 6 | `qa`         | float | Quality of option A . All other options have quality 1.0                |
+| 7 | `eta      ` | float | Noise / asocial dynamics probability (eta)                              |
+| 8 | `plot_evo`   | str   | `"true"`/`"false"` — currently parsed but **not used** by the simulation |
+| 9 | `etaA`         | float | noise bias  to bias the dynamics synergetically or antagonistically.    |
+| 10| `n`          | int   | Number of options (n ≥ 2)                                                |
+
 The output file gives you the  (i) evolution of agents in each state A_D, B_D, A_E, B_E and U (for CI) across last X timesteps 
+The script currenlty runs 100 repetitions of the simulation (hardcoded as `repetitions = 100` which can be changed)
+
+### Before running a real experiment
+
+`DEBUG = True` is hardcoded near the top of the file. With it on, the script prints a line
+for **every reaction considered at every single Gillespie step**, for every repetition. For
+anything beyond a tiny test run, this will flood your terminal and slow things down
+significantly. Set it to `False` before running real parameter sweeps:
+
+```python
+DEBUG = False
+```
+## Mathematical analysis
+The [Mathematica/basic folder](Mathematica/basic)  includes the ODEs solved for basic decion-making model and [Mathematica/robot_specific folder](Mathematica/robot_specific)  includes the ODEs solved for robot specific decion-making model.
+The data generation for best-of-n case (for n>2) can be done using the [Matlab files](Mathematica/best-of-n) files.
 
 ## Plotting data
 To generate the figures in the study, generate data using Gillespie or Robot simulations. Then use the following python based scripts to get the plots:
 
-* [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat) folder contains two scripts (one for CI and one for DS) to compact the robot simulation data into the right format to generate the heatmaps for Figure 3 and Figure 4.
-* [Robot bifurcations](Plottingcode/robot_bif_heatmaps) folder has the script to generate heatmaps pf Figure 3 and Figure 4 using the fomatted data generated from scripts in [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat)
-* [Heatmaps](Plottingcode/heatmaps) folder contain the scripts to generate the speed, accuracy and cohesion heatmaps from Gillespie simulations to generate Figure 5.
-* [Deadlock](Plottingcode/plottingdeadlock) folder contains the script to plot Figure 5 colourmaps showing point of maximum deadlock where population of robots for option A equals that for option B in DS mechanism. The input to the script will be folder containing stable points of DS mechanism for various <eta>. The points can be exported from ODE models in [Mathematica notebooks](Mathematica/robot_specific) for the robot specific model. The [Mathematica folder](Mathematica/basic) also includes the ODEs solved for basic decion-making model. The data generation for best-of-n can be done using the [Matlab files](Mathematica/best-of-n) files.
-* [SPD](Plottingcode/spd) folder contains the script to generate the SPD plots from Gillespie simulation for Figure SF9.
-* [Speed Bar](Plottingcode/speedplots) folder contains the scripts to generate the bar plots in Figure 6.
+* [Plottingcode/getdatainformat](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat) folder contains two scripts (one for CI and one for DS) to compact the robot simulation data into the right format to generate the heatmaps for Figure 3 and Figure 4.
+* [Plottingcode/robot_bif_heatmaps](Plottingcode/robot_bif_heatmaps) folder has the script to generate heatmaps of Figure 3 and Figure 4 using the fomatted data generated from scripts in [Formatting](https://github.com/rainazakir/asocialdynamics/tree/main/Plottingcode/getdatainformat). One script for plotting eta on x-axis (Fig 3) and one script for plotting etaA on x-axis (Fig 4)
+* [Plottingcode/heatmaps](Plottingcode/heatmaps) folder contain the scripts to generate the speed, accuracy and cohesion heatmaps from Gillespie simulations to generate Figure 5.
+* [Plottingcode/plottingdeadlock](Plottingcode/plottingdeadlock) folder contains the script to plot Figure 5 colourmaps showing point of maximum deadlock where population of robots for option A equals that for option B in DS mechanism. The input to the script will be folder containing stable points of DS mechanism for various <eta>. The points can be exported from ODE models in [Mathematica notebooks](Mathematica/robot_specific) for the robot specific model. 
+* [Plottingcode/spd](Plottingcode/spd) folder contains the script to generate the SPD plots from Gillespie simulation for Figure SF9.
+* [Plottingcode/speedplots](Plottingcode/speedplots) folder contains the scripts to generate the bar plots in Figure 6, scatter plot of Fig 6, and the bar plot in SF6.
+* [Plottingcode/n_greaterthan_2](Plottingcode/n_greaterthan_2) folder contains the scripts to plot bifurcations plots in Fig 7 based on data generated Matlab files in [this folder](Mathematica/best-of-n)
 
