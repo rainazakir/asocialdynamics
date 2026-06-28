@@ -89,8 +89,6 @@ argos3 -c src/examples/experiments/kilobot_test.argos
 ```
 
 
-```
-
 ### 3. Clone this repository
 
 ```bash
