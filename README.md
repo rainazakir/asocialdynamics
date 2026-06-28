@@ -3,10 +3,10 @@
 Repo contains the code to run Gillespie simulation, the robot simulation code and the code to process Gillespie and robot simulation data to generate the figures. For all the installations, we assume a clean installation of Ubuntu20.04, Ubuntu22.04 or Mac OS. 
 
 ## Running Robot simulations
-[This folder](Robotcode) contains the contains custom ARGoS controllers (kilobot behaviors) and loop functions for simulating a swarm of [Kilobots](https://www.kilobotics.com/) using the [ARGoS3](https://www.argos-sim.info/) simulator and the [argos3-kilobot](https://github.com/ilpincy/argos3-kilobot) plugin to run experiments with antagonistic and synergistic asocial dynamics on the simulated Kilogrid. We simulate the Kilogrid environment that robots use to source opinions, for which the module controller can be found at `ARGoS_simulation/loopfunctions/kilogrid_stub.cpp`.
+[This folder](Robotcode) contains the contains custom ARGoS controllers (kilobot behaviors) and loop functions for simulating a swarm of Kilobots using the [ARGoS3](https://www.argos-sim.info/) simulator and the [argos3-kilobot](https://github.com/ilpincy/argos3-kilobot) plugin to run experiments with antagonistic and synergistic asocial dynamics on the simulated Kilogrid. We simulate the Kilogrid environment that robots use to source opinions, for which the module controller can be found at `ARGoS_simulation/loopfunctions/kilogrid_stub.cpp`.
 The robot controller can be found at `Robotcode/ARGoS_simulation/behaviours/antagonistic.c` or  `Robotcode/ARGoS_simulation/behaviours/synergistic.c`. 
 
-This folder also contains the code to run experiments on real Kilobots and kilogrid configurations files used for the experiments in the [kilobotcode] (kilobotcode).
+This folder also contains the code to run experiments on real Kilobots and kilogrid configurations files used for the experiments in the [kilobotcode](Robotcode/kilobotcode).
 
 
 ### Folder structure
