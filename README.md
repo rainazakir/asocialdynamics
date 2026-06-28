@@ -9,7 +9,7 @@ The robot controller can be found at `Robotcode/ARGoS_simulation/behaviours/anta
 This folder also contains the code to run experiments on real Kilobots and kilogrid configurations files used for the experiments in the [kilobotcode] (kilobotcode).
 
 
-## Repository structure
+### Folder structure
 
 ```
 RobotCode/
@@ -24,7 +24,7 @@ RobotCode/
 └── kilobotcode
 ```
 
-## Prerequisites
+### Prerequisites
 
 This project only builds on macOS or Linux (ARGoS does not support Windows).
 
@@ -41,9 +41,9 @@ brew install qt5
 You need to have argos3 (version 3.0.0-beta59) and Kilobot plugin for argos3 to run the simulations. 
 
 
-## Setup
+### Setup
 
-### 1. Install ARGoS3 (core simulator)
+#### 1. Install ARGoS3 (core simulator)
 
 ```bash
 git clone https://github.com/ilpincy/argos3.git
@@ -62,29 +62,23 @@ argos3 --version
 
 
 
-### 2. Install the argos3-kilobot plugin
+#### 2. Install the argos3-kilobot plugin
 
-```bash
+Renew the link to argos3  (first remove it).
+
+```
 git clone https://github.com/ilpincy/argos3-kilobot.git
 cd argos3-kilobot
+cd src/
+rm argos3
+cd ..
+ln -s ~/Programs/argos3-kilobot/src/ src/argos3
+
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ../src
 make -j4
 sudo make install
-```
-
-Renew the link to argos3  (first remove it).
-
-```
-cd ..
-cd src/
-rm argos3
-cd ..
-ln -s ~/Programs/argos3-kilobot/src/ src/argos3
-cmake -DCMAKE_BUILD_TYPE=Release ../src
-make -j4
-make install
 ```
 
 
@@ -104,7 +98,7 @@ git clone <this-repo-url> RobotCode
 cd RobotCode
 ```
 
-### 4. Link the kilobot headers into the project
+#### 4. Link the kilobot headers into the project
 
 The behavior code in `ARGoS_simulation/behaviours/` includes `kilolib.h` directly. To find
 it, the build expects a symlink named `argos3` at the root of `ARGoS_simulation/`, pointing
@@ -123,7 +117,7 @@ ls ARGoS_simulation/argos3/plugins/robots/kilobot/control_interface/
 # should list kilolib.h, message.h, message_crc.h, etc.
 ```
 
-### 5. Build
+#### 5. Build
 
 ```bash
 mkdir build
@@ -137,7 +131,7 @@ This produces, under `build/`:
 - `build/behaviours/agent_stub_ant`, `build/behaviours/agent_stub_ant` (or similarly named kilobot behavior executables if you change it)
 - `build/loop_functions/libkilogrid_stub.so` 
 
-## Running
+### Running
 
 The `.argos` experiment files in `ARGoS_simulation/experiment/` use **paths relative to the repository root** (e.g. `build/behaviours/agent_stub_syn`), not absolute paths. This means:
 
@@ -149,7 +143,7 @@ argos3 -c ARGoS_simulation/experiment/kilogrid_stub.argos
 This runs the experiments local. (You have to proper build it first!)
 
 
-## Troubleshooting
+### Troubleshooting
 
 **`fatal error: 'kilolib.h' file not found`**
 The `argos3` symlink from Setup step 4 is missing or points to the wrong place. Re-check it
