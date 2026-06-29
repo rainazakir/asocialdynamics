@@ -165,7 +165,7 @@ cmake version 3.25.1 and GNU Make 3.81
 
 ## Running Gillespie simulations
 
-There are two files, one for running Gillespie simulations using cross-inhibition mechanism and the other for direct-switch mechanism. For the full model derivation and meaning of each parameter, see the paper and the inline comments in the script — this README focuses on **how to run it**.
+There are two files, one for running Gillespie simulations using cross-inhibition mechanism and the other for direct-switch mechanism. For the full model derivation and meaning of each parameter, check the paper — this README focuses on **how to run it**.
 
 ### Requirements
 
