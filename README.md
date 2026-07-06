@@ -209,6 +209,10 @@ DEBUG = False
 The [Mathematica/basic folder](Mathematica/basic)  includes the ODEs solved for basic decion-making model and [Mathematica/robot_specific folder](Mathematica/robot_specific)  includes the ODEs solved for robot specific decion-making model.
 The data generation for best-of-n case (for n>2) can be done using the [Matlab files](Mathematica/best-of-n) files.
 
+### To run Mathematica notebooks, you need the following mathematica package
+
+- [Dynamica](https://rdbeer.pages.iu.edu/Software/Dynamica/Dynamica.m)
+
 ## Plotting data
 To generate the figures in the study, generate data using Gillespie or Robot simulations. Then use the following python based scripts to get the plots:
 
