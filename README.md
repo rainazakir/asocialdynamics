@@ -212,7 +212,7 @@ The data generation for best-of-n case (for n>2) can be done using the [Matlab f
 
 ### To run Mathematica notebooks, you need the following mathematica package
 
-- [Dynamica](https://rdbeer.pages.iu.edu/Software/Dynamica/Dynamica.m)
+- [Dynamica](https://rdbeer.pages.iu.edu/Software/Dynamica/Dynamica.m) by Randall Beer.
 
 ## Plotting data
 To generate the figures in the study, generate data using Gillespie or Robot simulations. Then use the following python based scripts to get the plots:
