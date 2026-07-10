@@ -186,15 +186,15 @@ All 10 arguments are **positional and required**, in this exact order:
 | 3 | `t_u`        | float | Time constant for the Uncommitted state                                 |
   | 4 | `t_d`      | int  | Time constant for the Disseminating state                                |
 | 5 | `t_e`        | int   | Time constant for the Exploring state                                   |
-| 6 | `qa`         | float | Quality of option A . All other options have quality 1.0                |
+| 6 | `q_a`         | float | Quality of option A . All other options have quality 1.0                |
 | 7 | `eta      ` | float | Noise / asocial dynamics probability (eta)                              |
 | 8 | `plot_evo`   | str   | `"true"`/`"false"` — currently parsed but **not used** by the simulation |
 | 9 | `etaA`         | float | noise bias  to bias the dynamics synergetically or antagonistically.    |
 | 10| `n`          | int   | Number of options (n ≥ 2)                                                |
 
 The output file gives you the  (i) evolution of agents in each state A_D, B_D, A_E, B_E and U (for CI) across last X timesteps 
-The script currenlty runs 100 repetitions of the simulation (hardcoded as `repetitions = 100` which can be changed)
-Setting `qa` to 1.219 will run the experiments for q=0.82, setting it to 1.086 will run experiments for q=0.92, and setting it to 1.5 will run experiments for q=0.66
+The script currenlty runs 100 repetitions of the simulation (hardcoded as `repetitions = 100` which can be changed).
+Setting `q_a` to 1.219 will run the experiments for q=0.82, setting it to 1.086 will run experiments for q=0.92, and setting it to 1.5 will run experiments for q=0.66.
 
 ### Before running a real experiment
 
@@ -208,7 +208,7 @@ DEBUG = False
 ```
 ## Mathematical analysis
 The [Mathematica/basic folder](Mathematica/basic)  includes the ODEs solved for basic decion-making model and [Mathematica/robot_specific folder](Mathematica/robot_specific)  includes the ODEs solved for robot specific decion-making model.
-The data generation for best-of-n case (for n>2) can be done using the [Matlab files](Mathematica/best-of-n) files.
+The data generation for best-of-n case (for n>2) can be done using the [Matlab files](Mathematica/best-of-n).
 
 ### To run Mathematica notebooks, you need the following mathematica package
 
