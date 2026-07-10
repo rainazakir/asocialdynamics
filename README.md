@@ -194,6 +194,7 @@ All 10 arguments are **positional and required**, in this exact order:
 
 The output file gives you the  (i) evolution of agents in each state A_D, B_D, A_E, B_E and U (for CI) across last X timesteps 
 The script currenlty runs 100 repetitions of the simulation (hardcoded as `repetitions = 100` which can be changed)
+Setting `qa` to 1.219 will run the experiments for q=0.82, setting it to 1.086 will run experiments for q=0.92, and setting it to 1.5 will run experiments for q=0.66
 
 ### Before running a real experiment
 
