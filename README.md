@@ -207,7 +207,7 @@ significantly. Set it to `False` before running real parameter sweeps:
 DEBUG = False
 ```
 ## Mathematical analysis
-The [Mathematica/basic folder](Mathematica/basic)  includes the ODEs solved for basic decion-making model and [Mathematica/robot_specific folder](Mathematica/robot_specific)  includes the ODEs solved for robot specific decion-making model.
+The [Mathematica/basic folder](Mathematica/basic)  includes the ODEs solved for basic decision-making model and [Mathematica/robot_specific folder](Mathematica/robot_specific)  includes the ODEs solved for robot specific decion-making model.
 The data generation for best-of-n case (for n>2) can be done using the [Matlab files](Mathematica/best-of-n).
 
 ### To run Mathematica notebooks, you need the following mathematica package
