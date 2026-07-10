@@ -52,7 +52,7 @@
 /* Change these when running experiment                                                          */
 /*-----------------------------------------------------------------------------------------------*/
 #define MODEL 0   // 0 --> Voter Model      1 --> CrossInhibition
-double noise = 0.05;
+double noise = 0.1;
 //double probtoselfsourceY = 0.00
 //double probtoselfsourceB = 0.15
 int how_many_op = 2; //set the number of opinion in Kilogrid--> max is 4 for now
